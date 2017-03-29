@@ -4,6 +4,6 @@ var Vue = require('vue')
 new Vue({
   el: '#app',
   render: function (createElement) {
-    return createElement('div', 'hi')
+    return createElement('div', 'hi Im a view in Vue, why not call this backbone.js?')
   }
 })

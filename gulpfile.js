@@ -26,13 +26,13 @@ gulp.task('vueify', function(){
           .transform('babelify', {presets: ["vue", "es2015"]})
           .bundle()
           .pipe(source('build.js'))
-          .pipe(gulp.dest('./public/build'))
+          .pipe(gulp.dest('./server/public/build'))
 })
 
 gulp.task('compile-less', function(){
   gulp.src('./server/public/stylesheets/main.less')
   .pipe(less())
-  .pipe(gulp.dest('./public/stylesheets'));
+  .pipe(gulp.dest('./server/public/stylesheets'));
 })
 
 
