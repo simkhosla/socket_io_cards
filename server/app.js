@@ -32,7 +32,6 @@ require('./db/db')
 var HomeController = require('./controllers/HomeController')
 
 
-
 app.use('/', HomeController)
 
 

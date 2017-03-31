@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
   <title></title>
 </head>
 <body>
-<%= title %>
 
 <div id="app">
-  {{ message }}
+  <!-- this is the login view -->
+  <div v-if="screen === 'login'">
+  <p> this is the login view </p>
+    <div class="card">
+      <div class="card-text">
+      <form>
+      <input v-model="username" v-on:keyup.enter="setClient" placeholder="PICK A USERNAME:" type="text" id="clientLoginInput" required=""></input>
+      </div>
+      <button type="submit" class="card-btn" v-on:click="setClient">SIGN IN</button></p>
+      </form>
+    </div>
+    
+  </div>
+
+  <!-- this is the pick a game view -->
+  <div v-else>
+  <p> this is pick game view </p>
+  <button @click="showGameForm">Add a Game</button>
+  <div id="addGameForm" class="card display" :class="{visible: showAddGameForm}">
+    <input v-model="newGameName" v-on:keyup.enter="createGame" placeholder="PICK A NAME:" type="text" id="newGameName" required=""></input>
+    <button type="submit" class="card-btn" v-on:click="createGame">ADD</button>
+  </div>
+  <card
+  v-for="(gameItem, index) in availableGames"
+  v-bind:card-text="gameItem.name"
+  btn-text="Choose"
+  btn-action="chooseGame"
+  v-bind:btn-data="gameItem.gameId">
+  </card>
+
+  </div>
+
 </div>
 
 
