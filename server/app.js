@@ -26,6 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
 
+
+
+
+
 // Requiring Database
 require('./db/db')
 
@@ -33,6 +37,78 @@ var HomeController = require('./controllers/HomeController')
 
 
 app.use('/', HomeController)
+
+
+// Socket Server Code
+
+var onlineClients = {},
+    usernames     = {},
+    numOfGames    = 1,
+    rooms         = [{
+          'name': 'Test Game 1',
+          'numberOfPlayers': 0,
+          'creator': 'Marvin Gaye',
+          'deck': 'default'
+    }];
+
+io.use(sharedsession(session, {
+  autoSave: true
+}));
+
+io.sockets.on('connect', function(socket){
+  console.log('sockets running')
+
+
+  socket.emit('rooms', rooms)
+
+  socket.on('createRoom', function(room){
+    numOfGames++
+    console.log('this is hitting, create room')
+    // creating unique room names
+    room['name']+= "#" + numOfGames
+    rooms.unshift(room)
+    socket.join('room_' + room['name'])
+
+    console.log(io.nsps['/'].adapter.rooms, 'this is adapter/ rooms')
+    io.sockets.emit('rooms', rooms)
+
+  });
+
+  socket.on('join-room', function(roomName){
+    console.log(roomName)
+    rooms.forEach(function(room, i, rooms){
+      console.log(room)
+        console.log(rooms[i]['name'], roomName, ' this is outside if')
+      if(rooms[i]['name'] = roomName){
+        console.log(rooms[i]['name'], roomName, ' this is inside if')
+          if (room['numberOfPlayers'] <= 3){
+              console.log(room['numberOfPlayers'])
+               rooms[i]['numberOfPlayers']+= 1
+               socket.join('room_' + roomName)
+               console.log(io.nsps['/'].adapter.rooms, 'this is adapter/ rooms')
+
+              io.sockets.emit('rooms', rooms);
+              return;
+          }
+          else{
+            // emit room is full
+          }
+      }// end of big if
+
+    })
+
+  })
+
+})// end socket code
+
+
+
+function checkRoomLength(room){
+  if (room['numberOfPlayers'] === 3){
+
+  }
+}
+
 
 
 
