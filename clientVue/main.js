@@ -1,12 +1,12 @@
 var app; //these have to be global so i can reference them in the HTML onClicks for card (don't make them not global)
-//hi
-//yo
+var io       = require('socket.io-client');
+var socket   = io.connect();
 
 //this is used FOR ALL CARDS CAUSE I AM A COMPONENT GOD
 Vue.component('card', {
   props: [
-    'cardText', 
-    'btnText', 
+    'cardText',
+    'btnText',
     'btnAction',
     'btnData'
     ],
@@ -14,15 +14,26 @@ Vue.component('card', {
   methods: {
     btnClicked: function() {
       console.log(this.btnAction);
-      if (this.btnAction == 'chooseGame')
+      if (this.btnAction == 'chooseGame'){
+
+
+       // whats going on here?
+        console.log(this.btnAction, ' this is something')
+
+        // button data is now the name of the chat room thats all I need to make the room
+        console.log(this.btnData, ' this is button data')
         this.chooseGame(this.btnData);
-      else
+      }
+      else  {
         this.test2;
+      }
     },
-    chooseGame: function(data) {
+    chooseGame: function(gameRoom) {
       console.log('choseGameFiring');
-      app.chooseGame(data);
-    }, 
+      // this is now the name of the room
+      console.log(gameRoom, ' this is data')
+      app.chooseGame(gameRoom);
+    },
     test2: function() {
       console.log('second test firing');
     }
@@ -42,15 +53,22 @@ app = new Vue({
     newGameObj: null,
     // availableDecks: [] // for later if we want it
   },
+  created: function(){
+    var self = this;
+    socket.on('rooms', function(gameRoom){
+      self.availableGames = gameRoom;
+    });
+  },
   methods: {
     //login methods //
     setClient: function() {
+      console.log(this.username)
       // this activates when you click LOGIN in the front on the form
       //whatever you need her to set the person into a socket session or whatever
       //the setting of this.username is handled by v-model in the front -- it is dope
-
+      socket.emit('username', this.username)
       //after all the logic
-      this.getActiveGames(); //this makes the call to pull games for the game view
+      // this.getActiveGames(); //this makes the call to pull games for the game view
       this.screen = 'pickGame'; //swaps it to the pick a game view
 
     },
@@ -69,51 +87,24 @@ app = new Vue({
 
       var tempNewGame = {
         'name': this.newGameName,
-        'creator': this.username, 
-        'gameId': 239,
-        'numberOfPlayers': 1
+        'creator': this.username,
+        'numberOfPlayers': 1,
+        'deck' : 'default'
       };
-
+      // when they create a room, are they automatically moved to game view,
+      // Thats what I'm assuming
+      //===========================================================
+      socket.emit('createRoom', tempNewGame)
       this.newGameObj = tempNewGame;
 
-      this.availableGames.unshift(tempNewGame); // this should be done on a return after creation -- if you wanna just reload it too we can do that. not sure what works best on your end. 
+
+      // this.availableGames.unshift(tempNewGame); // this should be done on a return after creation -- if you wanna just reload it too we can do that. not sure what works best on your end.
     },
-    /// starting game methods ///
-    getActiveGames: function() {
-      //this is where you plug in ajax or whatever gets all the currently joinable games
-      //returning crap for rendering
+    chooseGame: function(gameRoom) {
+      // ' this is now the name of the room'
 
-      var games = [
-        {
-          'name': 'Test Game 1',
-          'numberOfPlayers': 2,
-          'creator': 'TestPerson',
-          'gameId': 234,
-          'deck': 'default'  // i assume it'll be something like this to actually link, adjust however
-        },
-        {
-          'name': 'Test Game 2',
-          'numberOfPlayers': 1, 
-          'creator': 'AnotherPerson',
-          'gameId': 235,
-          'deck': 'default'  // i assume it'll be something like this to actually link, adjust however
-        },
-        {
-          'name': 'Test Game 3',
-          'numberOfPlayers': 1, 
-          'creator': 'Haff',
-          'gameId': 238,
-          'deck': 'default' // i assume it'll be something like this to actually link, adjust however
-        }
-      ];
-
-      // ^ this is all stuff that should be coming in through ajax or whatever gets it here.
-
-      this.availableGames = games;
-    },
-
-    chooseGame: function(gameId) {
-      console.log('app.chooseGame firing', gameId);
+      socket.emit('join-room', gameRoom)
+      console.log('app.chooseGame firing', gameRoom);
     }
 
   }
