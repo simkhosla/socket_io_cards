@@ -1,21 +1,26 @@
 body {
-  padding: 50px;
-  font: 14px "Comic Sans MS", cursive, sans-serif;
+  background: #d3d3d3;
 }
 
 a {
   color: #00B7FF;
 }
 
+#app {
+  height: 100%;
+  width: 100%;
+}
+
 .card {
   background: white;
-  height: 200px;
-  width: 150px;
+  height: 20em;
+  width: 15em;
   position: relative;
-  border: 2px solid black;
   display: inline-block;
   margin: 25px;
   border-radius: 5px;
+  padding: 35px 25px;
+  box-shadow: 2px 2px 2px #888888;
 }
 
 .card.display {
@@ -24,17 +29,32 @@ a {
 
 .card-text {
   margin: 0 auto;
-  width: 90%;
+  font-size: 1.8em;
 }
 
 .card-btn {
   position: absolute;
-  bottom: 0;
-  border: 2px solid black;
+  bottom: 20px;
+  /*border: 2px solid black;*/
   color: black;
   background: white;
-  border-radius: 5px;
-  margin: 0 auto;
+  /*border-radius: 5px;*/
+  /*margin: 0 auto;*/
+  font-size: 18px;
+}
+
+.card.black {
+  background: black;
+  color: white;
+}
+
+.card.black .card-text {
+  color: white;
+}
+
+.card.black .card-btn {
+  color: white !important;
+  background: black;
 }
 
 #addGameForm {
@@ -43,4 +63,8 @@ a {
 
 .visible {
   display: block !important;
+}
+
+.hidden {
+  display: none !important;
 }
