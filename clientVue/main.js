@@ -99,6 +99,7 @@ app = new Vue({
         //===========================================================
         socket.emit('createRoom', tempNewGame)
         this.newGameObj = tempNewGame;
+        this.newGameName = '';
       }
       // some sort of ajax or whatever method we need to create game //
       // adding some stub that then updates with the game you created //
