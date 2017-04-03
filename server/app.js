@@ -6,7 +6,6 @@ var express    = require('express'),
     bodyParser = require('body-parser'),
     cors       = require('cors'),
     path       = require('path'),
-    bcrypt     = require('bcrypt'),
     session    = require("express-session")({
                       secret: "my-secret",
                       resave: true,
@@ -58,20 +57,21 @@ io.use(sharedsession(session, {
 io.sockets.on('connect', function(socket){
   console.log('sockets running')
 
-
   socket.emit('rooms', rooms)
 
   socket.on('createRoom', function(room){
     numOfGames++
     console.log('this is hitting, create room')
-    // creating unique room names
-    room['name']+= "#" + numOfGames
+    // room['name']+= "#" + numOfGames 
+    //suggest just slapping number of games as an id cause it looks super weird with it being on the names
+    //if the id is unique doesn't matter that the name isn't right?
+    //use that to connect instead 
+    // room['id'] 
     rooms.unshift(room)
     socket.join('room_' + room['name'])
 
     console.log(io.nsps['/'].adapter.rooms, 'this is adapter/ rooms')
     io.sockets.emit('rooms', rooms)
-
   });
 
   socket.on('join-room', function(roomName){

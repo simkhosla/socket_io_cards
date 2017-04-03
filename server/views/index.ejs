@@ -2,43 +2,65 @@
 <html>
 <head>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-  <title></title>
+  <title><%= title %></title>
 </head>
 <body>
 
 <div id="app">
   <!-- this is the login view -->
   <div v-if="screen === 'login'">
-  <p> this is the login view </p>
+  <div class="row">
+    <div class="one-half column">
+      <div class="card black">
+        <div class="card-text"><%= title %></div>  
+      </div>
+    </div>
+    <div class="one-half column">
     <div class="card">
       <div class="card-text">
+        Pick a Username:
       <form>
-      <input v-model="username" v-on:keyup.enter="setClient" placeholder="PICK A USERNAME:" type="text" id="clientLoginInput" required=""></input>
+      <input v-model="username" v-on:keyup.enter="setClient" type="text" id="clientLoginInput" required=""></input>
       </div>
       <button type="submit" class="card-btn" v-on:click="setClient">SIGN IN</button></p>
       </form>
     </div>
-
+    </div>
   </div>
-
+  </div>
   <!-- this is the pick a game view -->
-  <div v-else>
-  <p> this is pick game view </p>
-  <p>Hello {{this.username}} please choose a game, come on make a decision, you're a woman aren't you.  Ahh I knew it, ohh come on I just meant that women take forever making decisions :)</p>
-  <button @click="showGameForm">Add a Game</button>
-  <div id="addGameForm" class="card display" :class="{visible: showAddGameForm}">
-    <input v-model="newGameName" v-on:keyup.enter="createGame" placeholder="PICK A NAME:" type="text" id="newGameName" required=""></input>
-    <button type="submit" class="card-btn" v-on:click="createGame">ADD</button>
-  </div>
-  <card
-  v-for="(gameItem, index) in availableGames"
-  v-bind:card-text="gameItem.name"
-  btn-text="Choose"
-  btn-action="chooseGame"
-  v-bind:btn-data="gameItem.name">
-  </card>
+  <div v-else-if="screen === 'pickGame'">
+  <div class="row">
+    <div class="one-half column">
+      <div class="card display black">
+        <div class="card-text">
+        <p>Hello {{this.username}} please choose a game or create one below:</p>
+          <!-- <div id="addGameForm" :class="{visible: showAddGameForm}"> -->
+            <input v-model="newGameName" v-on:keyup.enter="createGame" placeholder="PICK A NAME:" type="text" id="newGameName" required=""></input>
+          <!-- </div> -->
+      </div>
+      <!-- <button @click="showGameForm" :class="{hidden: showAddGameForm}" class="card-btn">Add a Game</button> -->
+     <button type="submit" class="card-btn" v-on:click="createGame">ADD GAME</button>
 
+
+      </div>
+    </div>
+    <div class="one-half column">
+          <card
+        v-for="(gameItem, index) in availableGames" :key="gameItem.id"
+        v-bind:card-text="gameItem.name"
+        btn-text="Choose"
+        btn-action="chooseGame"
+        v-bind:btn-data="gameItem.name">
+        </card>
+    </div>
+    </div>
+  </div>
+
+  <div v-else>
+    <p> This is the game view </p>
   </div>
 
 </div>
