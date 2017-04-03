@@ -62,11 +62,11 @@ io.sockets.on('connect', function(socket){
   socket.on('createRoom', function(room){
     numOfGames++
     console.log('this is hitting, create room')
-    // room['name']+= "#" + numOfGames 
+    // room['name']+= "#" + numOfGames
     //suggest just slapping number of games as an id cause it looks super weird with it being on the names
     //if the id is unique doesn't matter that the name isn't right?
-    //use that to connect instead 
-    // room['id'] 
+    //use that to connect instead
+    // room['id']
     rooms.unshift(room)
     socket.join('room_' + room['name'])
 

@@ -1,15 +1,12 @@
 body {
-  background: #d3d3d3;
-}
+  background: #d3d3d3; }
 
 a {
-  color: #00B7FF;
-}
+  color: #00B7FF; }
 
 #app {
   height: 100%;
-  width: 100%;
-}
+  width: 100%; }
 
 .card {
   background: white;
@@ -20,17 +17,14 @@ a {
   margin: 25px;
   border-radius: 5px;
   padding: 35px 25px;
-  box-shadow: 2px 2px 2px #888888;
-}
+  box-shadow: 2px 2px 2px #888888; }
 
 .card.display {
-  display: block;
-}
+  display: block; }
 
 .card-text {
   margin: 0 auto;
-  font-size: 1.8em;
-}
+  font-size: 1.8em; }
 
 .card-btn {
   position: absolute;
@@ -40,31 +34,24 @@ a {
   background: white;
   /*border-radius: 5px;*/
   /*margin: 0 auto;*/
-  font-size: 18px;
-}
+  font-size: 18px; }
 
 .card.black {
   background: black;
-  color: white;
-}
+  color: white; }
 
 .card.black .card-text {
-  color: white;
-}
+  color: white; }
 
 .card.black .card-btn {
   color: white !important;
-  background: black;
-}
+  background: black; }
 
 #addGameForm {
-  display: none;
-}
+  display: none; }
 
 .visible {
-  display: block !important;
-}
+  display: block !important; }
 
 .hidden {
-  display: none !important;
-}
+  display: none !important; }

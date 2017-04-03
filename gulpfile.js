@@ -1,6 +1,6 @@
 var gulp        = require('gulp');
 var browserSync = require('browser-sync');
-var less        = require('gulp-less')
+var less        = require('gulp-sass')
 var browserify  = require('browserify');
 var babelify    = require('babelify');
 var source      = require('vinyl-source-stream');
@@ -13,7 +13,7 @@ var vueify      = require('vueify');
 //  first arguement is the files I want to watch, the second is the task to run
 gulp.task('watch', function(){
   gulp.watch(['./clientVue/*.js'], ['vueify'])
-  gulp.watch(['./public/stylesheets/*.less'], ['compile-less'])
+  gulp.watch(['./server/public/stylesheets/*.scss'], ['compile-sass'])
   // gulp.watch("./server/views/*.html").on('change', browserSync.reload);
 })
 
@@ -29,11 +29,11 @@ gulp.task('vueify', function(){
           .pipe(gulp.dest('./server/public/build'))
 })
 
-gulp.task('compile-less', function(){
-  gulp.src('./server/public/stylesheets/main.less')
+gulp.task('compile-sass', function(){
+  gulp.src('./server/public/stylesheets/style.scss')
   .pipe(less())
   .pipe(gulp.dest('./server/public/stylesheets'));
 })
 
 
-gulp.task('default', ['compile-less', 'vueify', 'watch'])
+gulp.task('default', ['compile-sass', 'vueify', 'watch'])
