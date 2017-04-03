@@ -1,6 +1,7 @@
 var app; //these have to be global so i can reference them in the HTML onClicks for card (don't make them not global)
 var io       = require('socket.io-client');
 var socket   = io.connect();
+var Velocity = require('velocity-animate');
 
 //this is used FOR ALL CARDS CAUSE I AM A COMPONENT GOD
 Vue.component('card', {
@@ -62,7 +63,9 @@ app = new Vue({
   },
   methods: {
     //login methods //
-    setClient: function() {
+    setClient: function(e) {
+
+      console.log(e)
       console.log(this.username)
       // this activates when you click LOGIN in the front on the form
       //whatever you need her to set the person into a socket session or whatever
@@ -95,12 +98,12 @@ app = new Vue({
         // Thats what I'm assuming
         //===========================================================
         socket.emit('createRoom', tempNewGame)
-        this.newGameObj = tempNewGame;  
+        this.newGameObj = tempNewGame;
       }
       // some sort of ajax or whatever method we need to create game //
       // adding some stub that then updates with the game you created //
       // add it on return to the possibleGames array basically pops it into the available list //
-      
+
       // this.availableGames.unshift(tempNewGame); // this should be done on a return after creation -- if you wanna just reload it too we can do that. not sure what works best on your end.
     },
     chooseGame: function(gameRoom) {
@@ -108,6 +111,18 @@ app = new Vue({
       socket.emit('join-room', gameRoom);
       console.log('app.chooseGame firing', gameRoom);
       this.screen = 'gameView';
+    },
+    beforeEnter: function(el){
+
+      /// This is how you define the velocity transitions, but seems like this is gonna get
+      // way to big if this is a global component for everything
+      // how do you just put it on the card ? SCOPE!!!!!!!!!!!!!!
+      console.log(el, ' this is in before enter')
+      el.style.opacity = 0
+    },
+    enter: function(el){
+      console.log(el, ' this is el')
+      Velocity(el, { opacity: 1}, { duration: 500 })
     }
 
   }
