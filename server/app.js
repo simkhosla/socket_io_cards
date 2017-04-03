@@ -78,9 +78,9 @@ io.sockets.on('connect', function(socket){
     console.log(roomName)
     rooms.forEach(function(room, i, rooms){
       console.log(room)
-        console.log(rooms[i]['name'], roomName, ' this is outside if')
+
       if(rooms[i]['name'] = roomName){
-        console.log(rooms[i]['name'], roomName, ' this is inside if')
+
           if (room['numberOfPlayers'] <= 3){
               console.log(room['numberOfPlayers'])
                rooms[i]['numberOfPlayers']+= 1
@@ -103,11 +103,6 @@ io.sockets.on('connect', function(socket){
 
 
 
-function checkRoomLength(room){
-  if (room['numberOfPlayers'] === 3){
-
-  }
-}
 
 
 
