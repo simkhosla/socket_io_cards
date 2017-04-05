@@ -2,6 +2,8 @@
 <html>
 <head>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.css">
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
   <title><%= title %></title>
@@ -46,11 +48,12 @@
       </div>
     </div>
     <div class="one-half column">
-       <transition-group
+       <!-- <transition-group
             v-on:before-enter="beforeEnter"
             v-on:enter="enter"
             :css="false">
-          >
+          > -->
+          <flickity ref="flickity" :options="flickityOptions">
             <card :key="0"
               v-for="(gameItem, index) in availableGames" :key="gameItem.id"
               v-bind:card-text="gameItem.name"
@@ -58,7 +61,8 @@
               btn-action="chooseGame"
               v-bind:btn-data="gameItem.name">
             </card>
-        </transition-group>
+          </flickity>
+        <!-- </transition-group> -->
     </div>
     </div>
   </div>

@@ -3,6 +3,9 @@ var io       = require('socket.io-client');
 var socket   = io.connect();
 var Velocity = require('velocity-animate');
 
+//this is the carousel component
+import Flickity from 'vue-flickity'
+
 //this is used FOR ALL CARDS CAUSE I AM A COMPONENT GOD
 Vue.component('card', {
   props: [
@@ -15,8 +18,6 @@ Vue.component('card', {
   methods: {
     btnClicked: function() {
       console.log(this.btnAction);
-
-
       if (this.btnAction == 'chooseGame'){
        //BASICALLY: so i can use a single card component to trigger all the actions a card might have
        //a card can start a game , play a card, be chosing the winning response.
@@ -44,15 +45,23 @@ Vue.component('card', {
 
 app = new Vue({
   data: {
-    test: 'this is a test',
-    screen: 'login',
-    username: null,
-    chosenGame: null,
-    newGameName: null,
-    availableGames: [],
-    showAddGameForm: false,
-    newGameObj: null,
+      test: 'this is a test',
+      screen: 'login',
+      username: null,
+      chosenGame: null,
+      newGameName: null,
+      availableGames: [],
+      showAddGameForm: false,
+      newGameObj: null,
+      flickityOptions: {  
+        prevNextButtons: true,
+        wrapAround: true
+          // any options from Flickity can be used 
+      }
     // availableDecks: [] // for later if we want it
+  },
+  components: {
+    Flickity
   },
   created: function(){
     var self = this;
@@ -62,6 +71,13 @@ app = new Vue({
     console.log(self.availableGames);
   },
   methods: {
+    //flickity controls
+    nextCard: function() {
+      this.$refs.flickity.next();
+    },
+    previousCard: function() {
+      this.$refs.flickity.previous();
+    },
     //login methods //
     setClient: function(e) {
 
@@ -101,6 +117,8 @@ app = new Vue({
         this.newGameObj = tempNewGame;
         this.newGameName = '';
       }
+
+      this.$el.render();
       // some sort of ajax or whatever method we need to create game //
       // adding some stub that then updates with the game you created //
       // add it on return to the possibleGames array basically pops it into the available list //
